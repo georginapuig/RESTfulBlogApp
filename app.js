@@ -34,9 +34,9 @@ const Blog = mongoose.model('Blog', blogSchema);
 // });
 
 // APP CONFIG
-app.use(bodyParser.urlencoded({extended: true})); // body parser
-app.use(express.static); // static files
 app.set('view engine', 'ejs'); // ejs template engine
+app.use(express.static('public')); // static files
+app.use(bodyParser.urlencoded({extended: true})); // body parser
 
 // RESTFUL ROUTES
 // home
@@ -48,15 +48,14 @@ app.get('/', function(req, res) {
 app.get('/blogs', function(req, res) {
   Blog.find({}, function(err, blogs) {
     if (err) {
-      console.log('error');
+      console.log(err);
     } else {
       res.render('index', { blogs: blogs });
     }
   });
 });
 
-
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
-  console.log('The Yelp camp server has started');
+  console.log('The blog server has started');
 });
