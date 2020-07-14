@@ -27,6 +27,12 @@ const blogSchema = new mongoose.Schema({
 });
 const Blog = mongoose.model('Blog', blogSchema);
 
+Blog.create({
+  title: 'Test Blog',
+  image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
+  body: 'This is a blog post',
+});
+
 // APP CONFIG
 app.use(bodyParser.urlencoded({extended: true})); // body parser
 app.use(express.static); // static files
