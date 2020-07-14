@@ -10,7 +10,7 @@ const bodyParser = require('body-parser'),
       express    = require('express'),
       app        = express();
 
-// mongoose setup
+// MONGOOSE CONFIG
 mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -18,14 +18,23 @@ mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
   .then(() => console.log('Connected to DB!'))
   .catch(error => console.log(error.message));
 
-// body parser setup
-app.use(bodyParser.urlencoded({extended: true}));
-// static files setup
-app.use(express.static);
-// ejs template engine setup
-app.set('view engine', 'ejs');
+// MONGOOSE/MODEL CONFIG
+const blogSchema = new mongoose.Schema({
+  title: String,
+  image: String,
+  body: String,
+  created: { type: Date, default: Date.now }
+});
+const Blog = mongoose.model('Blog', blogSchema);
 
-// port setup
+// APP CONFIG
+app.use(bodyParser.urlencoded({extended: true})); // body parser
+app.use(express.static); // static files
+app.set('view engine', 'ejs'); // ejs template engine
+
+// RESTFUL ROUTES
+
+// PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log('The Yelp camp server has started');
 });
