@@ -21,3 +21,15 @@ mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
 })
   .then(() => console.log('Connected to DB!'))
   .catch(error => console.log(error.message));
+
+// body parser setup
+app.use(bodyParser.urlencoded({extended: true}));
+// static files setup
+app.use(express.static);
+// ejs template engine setup
+app.set('view engine', 'ejs');
+
+// port setup
+app.listen(process.env.PORT || 3000, process.env.IP, function() {
+  console.log('The Yelp camp server has started');
+});
