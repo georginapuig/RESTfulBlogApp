@@ -27,20 +27,35 @@ const blogSchema = new mongoose.Schema({
 });
 const Blog = mongoose.model('Blog', blogSchema);
 
-Blog.create({
-  title: 'Test Blog',
-  image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
-  body: 'This is a blog post',
-});
+// Blog.create({
+//   title: 'Test Blog',
+//   image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80',
+//   body: 'This is a blog post',
+// });
 
 // APP CONFIG
-app.use(bodyParser.urlencoded({extended: true})); // body parser
-app.use(express.static); // static files
 app.set('view engine', 'ejs'); // ejs template engine
+app.use(express.static('public')); // static files
+app.use(bodyParser.urlencoded({extended: true})); // body parser
 
 // RESTFUL ROUTES
+// home
+app.get('/', function(req, res) {
+  res.redirect('/blogs');
+});
+
+// index
+app.get('/blogs', function(req, res) {
+  Blog.find({}, function(err, blogs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.render('index', { blogs: blogs });
+    }
+  });
+});
 
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
-  console.log('The Yelp camp server has started');
+  console.log('The blog server has started');
 });
