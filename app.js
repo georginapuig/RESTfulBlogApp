@@ -1,14 +1,10 @@
-
 //  mkdir RESTfulBlogApp
 //  cd RESTfulBlogApp
 //  npm init
 //  git init
 //  hub create
-//  npm install express mongoose body-parser --save
-//  git push origin master 
-//  touch app.js
-// npm install ejs --save
 
+//  npm install express mongoose body-parser ejs --save
 const bodyParser = require('body-parser'),
       mongoose   = require('mongoose'),
       express    = require('express'),
