@@ -55,6 +55,11 @@ app.get('/blogs', function(req, res) {
   });
 });
 
+// new
+app.get('/blogs/new', function(req, res) {
+  res.render('new');
+});
+
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log('The blog server has started');
