@@ -88,6 +88,19 @@ app.get('/blogs/:id', function(req, res) {
   });
 });
 
+// edit
+app.get('/blogs/:id/edit', function(req, res) {
+  // find blog
+  Blog.findById(req.params.id, function(err, foundBlog) {
+    if (err) {
+      res.redirect('/blogs');
+    } else {
+      // render edited template
+      res.render('edit', { blog: foundBlog });
+    }
+  });
+});
+
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log('The blog server has started');
