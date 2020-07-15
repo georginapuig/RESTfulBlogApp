@@ -68,8 +68,21 @@ app.post('/blogs', function(req, res) {
     if (err) {
       res.render('new');
     } else {
-      //  redirect to index
+      // redirect to index
       res.redirect('/blogs');
+    }
+  });
+});
+
+// show
+app.get('/blogs/:id', function(req, res) {
+  // find blog by id
+  Blog.findById(req.params.id, function(err, foundBlog) {
+    if (err) {
+      res.redirect('/blogs');
+    } else {
+      // render blog
+      res.render('show', { blog: foundBlog });
     }
   });
 });
