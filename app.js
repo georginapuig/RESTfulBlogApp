@@ -60,6 +60,20 @@ app.get('/blogs/new', function(req, res) {
   res.render('new');
 });
 
+// create
+app.post('/blogs', function(req, res) {
+  // create blog
+  // Blog.create(data, callback);
+  Blog.create(req.body.blog, function(err, newBlog) {
+    if (err) {
+      res.render('new');
+    } else {
+      //  redirect to index
+      res.redirect('/blogs');
+    }
+  });
+});
+
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log('The blog server has started');
