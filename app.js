@@ -127,9 +127,15 @@ app.put('/blogs/:id', function(req, res) {
 // destroy
 app.delete('/blogs/:id', function(req, res) {
   // destroy blog
-  // Blog.findByIdAndRemove();
-  res.send('you have reached the destroy route');
-  // redirect somewhere
+  Blog.findByIdAndRemove(req.params.id, function(err) {
+    if (err) {
+      res.redirect('/blogs');
+    } else {
+      // redirect somewhere
+      res.redirect('/blogs');
+    }
+  });
+  // res.send('you have reached the destroy route');
 });
 
 // PORT CONFIG
