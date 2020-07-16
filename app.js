@@ -6,9 +6,10 @@
 
 //  npm install express mongoose body-parser ejs --save
 const bodyParser = require('body-parser'),
-      mongoose   = require('mongoose'),
-      express    = require('express'),
-      app        = express();
+methodOverride   = require('method-override'),// npm install method-override --save
+mongoose         = require('mongoose'),
+express          = require('express'),
+app              = express();
 
 // MONGOOSE CONFIG
 mongoose.connect('mongodb://localhost:27017/restful_blog_app', {
@@ -37,6 +38,7 @@ const Blog = mongoose.model('Blog', blogSchema);
 app.set('view engine', 'ejs'); // ejs template engine
 app.use(express.static('public')); // static files
 app.use(bodyParser.urlencoded({extended: true})); // body parser
+app.use(methodOverride('_method')); // method-override put
 
 // RESTFUL ROUTES
 // home
@@ -99,6 +101,21 @@ app.get('/blogs/:id/edit', function(req, res) {
       res.render('edit', { blog: foundBlog });
     }
   });
+});
+
+// update
+app.put('/blogs/:id', function(req, res) {
+  // find blog by id
+  res.send('update');
+  // Blog.findByIdAndUpdate(req.params.id, function(err, foundBlog) {
+  //   if (err) {
+  //     res.redirect('/blogs');
+  //   } else {
+  //     // render updated blog
+  //     res.send('update');
+  //     // res.render('show', { blog: foundBlog });
+  //   }
+  // });
 });
 
 // PORT CONFIG
