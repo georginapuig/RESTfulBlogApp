@@ -106,16 +106,22 @@ app.get('/blogs/:id/edit', function(req, res) {
 // update
 app.put('/blogs/:id', function(req, res) {
   // find blog by id
-  res.send('update');
-  // Blog.findByIdAndUpdate(req.params.id, function(err, foundBlog) {
-  //   if (err) {
-  //     res.redirect('/blogs');
-  //   } else {
-  //     // render updated blog
-  //     res.send('update');
-  //     // res.render('show', { blog: foundBlog });
-  //   }
-  // });
+  // Blog.findByIdAndUpdate(id, newData, callback)
+  Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog) {
+    // req.body.form because name="body[]" in the edit form
+    console.log(req.body.blog); // { title: 'Test Blog', image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80', body: 'This is a blog post' }
+    console.log(req.params.id); // 5f0d46dce72cbc3c96cf5bc7
+
+    if (err) {
+      res.redirect('/blogs');
+    } else {
+      // render updated blog
+      // res.send('update');
+      res.redirect('/blogs/' + req.params.id);
+      // or
+      // res.redirect('/blogs/' + updatedBlog.id);
+    }
+  });
 });
 
 // PORT CONFIG
