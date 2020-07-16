@@ -12,6 +12,10 @@
         <%# < % - html markup textarea %>
         <p><%- blog.body %></p> 
       </div>
+      <!-- delete button -->
+      <form action="/blogs/<%= blog._id %>"?_method=DELETE method="POST">
+        <button class="ui red basic button">Delete</button>
+      </form>
     </div>
   </div>
 </div>
