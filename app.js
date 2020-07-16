@@ -124,6 +124,14 @@ app.put('/blogs/:id', function(req, res) {
   });
 });
 
+// destroy
+app.delete('/blogs/:id', function(req, res) {
+  // destroy blog
+  // Blog.findByIdAndRemove();
+  res.send('you have reached the destroy route');
+  // redirect somewhere
+});
+
 // PORT CONFIG
 app.listen(process.env.PORT || 3000, process.env.IP, function() {
   console.log('The blog server has started');
