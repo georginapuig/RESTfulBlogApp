@@ -6,7 +6,8 @@
 
 //  npm install express mongoose body-parser ejs --save
 const bodyParser = require('body-parser'),
-methodOverride   = require('method-override'),// npm install method-override --save
+methodOverride   = require('method-override'), // npm install method-override --save
+expressSanitizer = require('express-sanitizer'), // npm install express-sanitizer --save
 mongoose         = require('mongoose'),
 express          = require('express'),
 app              = express();
@@ -39,6 +40,7 @@ app.set('view engine', 'ejs'); // ejs template engine
 app.use(express.static('public')); // static files
 app.use(bodyParser.urlencoded({extended: true})); // body parser
 app.use(methodOverride('_method')); // method-override put
+app.use(expressSanitizer()); // removes script. we should use it after body parser
 
 // RESTFUL ROUTES
 // home
@@ -64,6 +66,10 @@ app.get('/blogs/new', function(req, res) {
 
 // create
 app.post('/blogs', function(req, res) {
+  console.log(req.body); // blog: { title: 'Test Blog', image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80', body: "<h1>blog</h1>\r\n<script>alert('hey');</script>"
+  req.body.blog.body = req.sanitize(req.body.blog.body);
+  console.log(req.body); // blog: { title: 'Test Blog', image: 'https://images.unsplash.com/photo-1586088209375-7c9f50ff8b5a?ixlib=rb-1.2.1&auto=format&fit=crop&w=1500&q=80', body: '<h1>blog</h1>\r\n'
+  
   // create blog
   // Blog.create(data, callback);
   Blog.create(req.body.blog, function(err, newBlog) {
@@ -105,6 +111,8 @@ app.get('/blogs/:id/edit', function(req, res) {
 
 // update
 app.put('/blogs/:id', function(req, res) {
+  req.body.blog.body = req.sanitize(req.body.blog.body);
+  
   // find blog by id
   // Blog.findByIdAndUpdate(id, newData, callback)
   Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog) {
